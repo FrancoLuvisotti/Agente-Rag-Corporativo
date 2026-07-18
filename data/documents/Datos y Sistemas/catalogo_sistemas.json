@@ -1,0 +1,23 @@
+{
+  "empresa": "NovaTech Solutions",
+  "sistemas": [
+    {
+      "nombre": "Portal interno",
+      "uso": "Solicitudes de vacaciones, licencias, reembolsos y capacitación",
+      "responsable": "Recursos Humanos y Finanzas",
+      "soporte": "soporte@empresa-demo.com"
+    },
+    {
+      "nombre": "Mesa de ayuda",
+      "uso": "Incidentes, accesos, equipos y solicitudes de software",
+      "responsable": "Tecnología",
+      "soporte": "soporte@empresa-demo.com"
+    },
+    {
+      "nombre": "CRM corporativo",
+      "uso": "Oportunidades, clientes y propuestas comerciales",
+      "responsable": "Dirección Comercial",
+      "soporte": "comercial@empresa-demo.com"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "area": "Operaciones",
+  "responsable": "soporte@empresa-demo.com",
+  "SLA": "Las incidencias críticas deben ser registradas en la mesa de ayuda y reciben una primera respuesta en un máximo de 2 horas hábiles.",
+  "escalamiento": "Si el servicio está completamente indisponible, marcar el ticket como Critico y avisar al canal #incidentes."
+}
