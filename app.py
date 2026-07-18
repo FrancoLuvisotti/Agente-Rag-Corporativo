@@ -223,8 +223,7 @@ def retrieval_question(question: str, messages: list[dict]) -> str:
 def extractive_answer(results: list[dict]) -> tuple[str, list[str]]:
     """Genera una respuesta estrictamente respaldada por los fragmentos recuperados.
 
-    Es extractiva para no inventar datos. En una evolución se puede reemplazar
-    por un LLM, manteniendo la misma regla: responder solo desde este contexto.
+    Es extractiva para no inventar datos.
     """
     if not results or results[0]["score"] < 0.28:
         return "No encontré información suficiente en los documentos disponibles. Te sugiero contactar al área responsable de ese tema.", []
