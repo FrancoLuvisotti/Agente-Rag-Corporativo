@@ -276,12 +276,21 @@ PREGUNTA ACTUAL: {question}
 
 
 def gemini_api_key() -> str | None:
-    """Lee la clave desde Streamlit Secrets en nube o desde variables locales."""
+    """Lee la clave desde Streamlit Secrets, variables de entorno o el entorno local."""
+    # Streamlit Cloud expone los secretos como st.secrets, pero la clave puede
+    # venir también definida por el usuario en la sesión del runtime.
+    candidate_keys = []
     try:
-        secret_key = st.secrets["GEMINI_API_KEY"]
+        candidate_keys.append(st.secrets.get("GEMINI_API_KEY", ""))
     except Exception:
-        secret_key = None
-    return secret_key or os.getenv("GEMINI_API_KEY")
+        candidate_keys.append("")
+    env_key = os.getenv("GEMINI_API_KEY")
+    if env_key:
+        candidate_keys.append(env_key)
+    for value in candidate_keys:
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return None
 
 
 def gemini_answer(question: str, results: list[dict], history: list[dict], model: str) -> str | None:
@@ -319,7 +328,10 @@ PREGUNTA ACTUAL: {question}"""
             if parts:
                 return clean(parts[0].text)
         return None
-    except Exception:
+    except Exception as exc:
+        # En Streamlit Cloud este fallo suele venir de una clave inválida, un
+        # modelo no soportado o un problema en la respuesta del servicio.
+        print(f"Gemini error: {exc}")
         return None
 
 
