@@ -285,7 +285,7 @@ def gemini_api_key() -> str | None:
 
 
 def gemini_answer(question: str, results: list[dict], history: list[dict], model: str) -> str | None:
-    """Redacta con Gemini Cloud sin exponer ni guardar la clave de API."""
+    """Redacta con Gemini Cloud usando la API actual del SDK instalado."""
     api_key = gemini_api_key()
     if not api_key:
         return None
@@ -304,12 +304,21 @@ CONTEXTO DOCUMENTAL:
 
 PREGUNTA ACTUAL: {question}"""
     try:
-        # La importación diferida permite que el modo local funcione aunque el
-        # paquete de Gemini no esté instalado todavía.
         from google import genai
         client = genai.Client(api_key=api_key)
-        interaction = client.interactions.create(model=model, input=prompt, store=False)
-        return clean(interaction.output_text)
+        response = client.models.generate_content(
+            model=model,
+            contents=prompt,
+            config={"temperature": 0.1, "topP": 0.9},
+        )
+        text = getattr(response, "text", None)
+        if text:
+            return clean(text)
+        if getattr(response, "candidates", None):
+            parts = response.candidates[0].content.parts
+            if parts:
+                return clean(parts[0].text)
+        return None
     except Exception:
         return None
 
