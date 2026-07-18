@@ -1,6 +1,6 @@
 # Plan estratégico 2026
 
-**Versión:** 1.0 · **Responsable:** Dirección General — direccion@novatech-demo.com
+**Versión:** 1.1 · **Responsable:** Dirección General — direccion@novatech-demo.com
 
 ## Objetivos anuales
 
@@ -13,4 +13,6 @@
 
 En el primer semestre se priorizan estabilidad, seguridad y mejora del onboarding de clientes. En el tercer trimestre se lanza la beta del módulo de automatización para clientes Profesional y Enterprise. En el cuarto trimestre se evalúan resultados, adopción y prioridades de 2027.
 
-Cada área revisa sus indicadores mensualmente y comparte avances en la reunión trimestral de toda la empresa. Los cambios de prioridad que afecten compromisos con clientes requieren aprobación de Dirección.
+## Indicadores de seguimiento
+
+Cada área revisa sus indicadores mensualmente y comparte avances en la reunión trimestral de toda la empresa. Los cambios de prioridad que afecten compromisos con clientes requieren aprobación de Dirección. Los resultados se consolidan en un tablero ejecutivo de seguimiento para revisar riesgo, avance y cumplimiento de compromisos.
