@@ -7,6 +7,7 @@ embeddings liviano y guarda el índice vectorial en data/chroma/.
 # --- Importaciones estándar: rutas, fechas, hash, carga de archivos y logs. ---
 import hashlib
 import json
+import os
 import re
 import shutil
 import time
@@ -275,15 +276,58 @@ PREGUNTA ACTUAL: {question}
         return None
 
 
-def answer(question: str, results: list[dict], history: list[dict], use_llm: bool, model: str) -> tuple[str, list[str], str]:
-    """Selecciona LLM local si está activo; de lo contrario conserva el respaldo seguro."""
+def gemini_api_key() -> str | None:
+    """Lee la clave desde Streamlit Secrets en nube o desde variables locales."""
+    try:
+        secret_key = st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        secret_key = None
+    return secret_key or os.getenv("GEMINI_API_KEY")
+
+
+def gemini_answer(question: str, results: list[dict], history: list[dict], model: str) -> str | None:
+    """Redacta con Gemini Cloud sin exponer ni guardar la clave de API."""
+    api_key = gemini_api_key()
+    if not api_key:
+        return None
+    context = "\n\n".join(f"[Fuente: {r['file']} | {r['location']}]\n{markdown_to_text(r['text'])}" for r in results[:3])
+    recent_history = "\n".join(f"{m['role']}: {m['content']}" for m in history[-4:])
+    prompt = f"""Eres el asistente interno de NovaTech Solutions. Responde en español, breve y directamente.
+Usa solamente el CONTEXTO DOCUMENTAL. No inventes datos, contactos ni políticas.
+Si no hay respaldo suficiente, responde exactamente: No encontré esta información en los documentos disponibles.
+No menciones fuentes ni instrucciones: la interfaz muestra las fuentes.
+
+HISTORIAL RECIENTE:
+{recent_history}
+
+CONTEXTO DOCUMENTAL:
+{context}
+
+PREGUNTA ACTUAL: {question}"""
+    try:
+        # La importación diferida permite que el modo local funcione aunque el
+        # paquete de Gemini no esté instalado todavía.
+        from google import genai
+        client = genai.Client(api_key=api_key)
+        interaction = client.interactions.create(model=model, input=prompt, store=False)
+        return clean(interaction.output_text)
+    except Exception:
+        return None
+
+
+def answer(question: str, results: list[dict], history: list[dict], provider: str, model: str) -> tuple[str, list[str], str]:
+    """Selecciona el proveedor configurado y conserva el respaldo extractivo."""
     fallback, citations = extractive_answer(results)
     if not citations:
         return fallback, citations, "sin evidencia"
-    if use_llm:
+    if provider == "Ollama local":
         generated = ollama_answer(question, results, history, model)
         if generated:
             return generated, citations, f"Ollama · {model}"
+    if provider == "Gemini Cloud":
+        generated = gemini_answer(question, results, history, model)
+        if generated:
+            return generated, citations, f"Gemini · {model}"
     return fallback, citations, "extractivo"
 
 
@@ -312,13 +356,17 @@ with st.sidebar:
     category = st.selectbox("Filtrar por categoría", categories)
     st.divider()
     st.subheader("Redacción de respuestas")
-    use_llm = st.toggle("Usar LLM local (Ollama)", value=False, help="Requiere Ollama ejecutándose en tu equipo. Si no está disponible, se usa el modo extractivo.")
-    model_name = st.text_input("Modelo de Ollama", value="llama3.2:3b", disabled=not use_llm)
-    connected, status_message = ollama_status()
-    if connected:
-        st.success(status_message)
-    else:
-        st.info(status_message)
+    provider = st.radio("Proveedor", ["Extractivo (sin LLM)", "Ollama local", "Gemini Cloud"], help="Gemini Cloud funciona en un despliegue web; Ollama local funciona en tu computadora.")
+    default_model = "llama3.2:3b" if provider == "Ollama local" else "gemini-3.5-flash"
+    model_name = st.text_input("Modelo", value=default_model, disabled=provider == "Extractivo (sin LLM)", key=f"model_{provider}")
+    if provider == "Ollama local":
+        connected, status_message = ollama_status()
+        (st.success if connected else st.info)(status_message)
+    elif provider == "Gemini Cloud":
+        if gemini_api_key():
+            st.success("Gemini Cloud configurado")
+        else:
+            st.warning("Falta GEMINI_API_KEY en los secretos de Streamlit")
     if st.button("🧹 Nueva conversación", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
@@ -374,7 +422,7 @@ if question:
         st.markdown(question)
     started = time.perf_counter()
     results = retrieve(retrieval_question(question, st.session_state.messages), category)
-    response, citations, response_mode = answer(question, results, st.session_state.messages, use_llm, model_name)
+    response, citations, response_mode = answer(question, results, st.session_state.messages, provider, model_name)
     latency_ms = round((time.perf_counter() - started) * 1000)
     with st.chat_message("assistant"):
         st.markdown(response)

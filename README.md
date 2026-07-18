@@ -8,7 +8,7 @@ MVP de una base de conocimiento conversacional para colaboradores. Procesa docum
 - Ingesta mediante carga manual y lectura de carpetas. Admite PDF, Word, Excel, PowerPoint, Markdown, CSV, JSON y HTML.
 - Extracción específica por formato, limpieza, fragmentación con solapamiento y metadatos (categoría, archivo, ubicación y fecha).
 - Recuperación semántica con embeddings locales (`all-MiniLM-L6-v2`) y ChromaDB persistente. Si la relevancia es baja, responde que no tiene respaldo documental.
-- Redacción opcional mediante un LLM local con Ollama; sin LLM, conserva un modo extractivo seguro.
+- Tres modos de redacción: extractivo, Ollama local y Gemini Cloud (con clave secreta para despliegue web).
 - Registro JSON Lines de cada consulta: fecha, filtro, fuentes, puntajes, respuesta y latencia.
 - Datos de muestra para RH, Finanzas y Operaciones.
 - Base documental ficticia y legible de NovaTech Solutions, organizada por área; cada archivo indica vigencia y responsable.
@@ -35,6 +35,20 @@ ollama pull llama3.2:3b
 ```
 
 En la barra lateral activa **Usar LLM local (Ollama)**. El agente le envía al modelo solamente la pregunta, un historial corto y los fragmentos recuperados; las fuentes siguen apareciendo debajo de la respuesta. Si Ollama no está disponible, la aplicación vuelve automáticamente al modo extractivo.
+
+## Gemini Cloud para la aplicación pública
+
+1. Crea una clave en Google AI Studio.
+2. En local, copia `.streamlit/secrets.toml.example` como `.streamlit/secrets.toml` y pega la clave.
+3. En Streamlit Community Cloud, abre **Advanced settings → Secrets** y pega:
+
+```toml
+GEMINI_API_KEY = "tu_clave"
+```
+
+4. En la aplicación, selecciona **Gemini Cloud** y el modelo `gemini-3.5-flash`.
+
+El archivo real `secrets.toml` está ignorado por Git y nunca debe publicarse.
 
 ## Estructura
 

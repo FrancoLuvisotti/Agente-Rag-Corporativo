@@ -1,5 +1,6 @@
 streamlit>=1.37
 chromadb>=0.5
+google-genai>=1.0
 pandas>=2.2
 openpyxl>=3.1
 pypdf>=4.2

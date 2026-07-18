@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
 .env
+.streamlit/secrets.toml
 logs/*.jsonl
 data/index/
