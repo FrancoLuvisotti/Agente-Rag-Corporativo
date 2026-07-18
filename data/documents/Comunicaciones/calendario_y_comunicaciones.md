@@ -6,12 +6,12 @@ Los comunicados oficiales de políticas, beneficios, cambios organizacionales y 
 
 ## Hitos recurrentes
 
-| Actividad | Frecuencia | Canal |
-| --- | --- | --- |
-| Reunión general de empresa | Primer jueves de cada mes | Streaming interno |
-| Encuesta de clima | Abril y octubre | Portal interno |
-| Revisión de objetivos | Enero, abril, julio y octubre | Reunión de área |
-| Newsletter interno | Último viernes de cada mes | Correo corporativo |
+| Actividad                  | Frecuencia                    | Canal              |
+| -------------------------- | ----------------------------- | ------------------ |
+| Reunión general de empresa | Primer jueves de cada mes     | Streaming interno  |
+| Encuesta de clima          | Abril y octubre               | Portal interno     |
+| Revisión de objetivos      | Enero, abril, julio y octubre | Reunión de área    |
+| Newsletter interno         | Último viernes de cada mes    | Correo corporativo |
 
 ## Reglas de emisión
 

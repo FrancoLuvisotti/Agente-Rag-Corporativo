@@ -14,13 +14,13 @@ El horario de referencia es de lunes a viernes, de 9:00 a 18:00 (hora de Argenti
 
 ## Directorio de áreas
 
-| Área | Contacto | Alcance |
-| --- | --- | --- |
-| Recursos Humanos | rrhh@empresa-demo.com | Beneficios, licencias, onboarding |
-| Finanzas | finanzas@empresa-demo.com | Gastos, reintegros, facturas |
-| Legal y Compliance | legal@empresa-demo.com | Privacidad, contratos, denuncias |
-| Operaciones | soporte@empresa-demo.com | Incidentes y procesos operativos |
-| Tecnología | tecnologia@empresa-demo.com | Accesos, seguridad, herramientas |
+| Área               | Contacto                    | Alcance                           |
+| ------------------ | --------------------------- | --------------------------------- |
+| Recursos Humanos   | rrhh@empresa-demo.com       | Beneficios, licencias, onboarding |
+| Finanzas           | finanzas@empresa-demo.com   | Gastos, reintegros, facturas      |
+| Legal y Compliance | legal@empresa-demo.com      | Privacidad, contratos, denuncias  |
+| Operaciones        | soporte@empresa-demo.com    | Incidentes y procesos operativos  |
+| Tecnología         | tecnologia@empresa-demo.com | Accesos, seguridad, herramientas  |
 
 ## Reglas de comunicación interna
 

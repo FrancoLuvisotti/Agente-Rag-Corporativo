@@ -6,11 +6,11 @@ Un incidente es una interrupción no planificada o degradación de un servicio. 
 
 ## Clasificación de severidad
 
-| Severidad | Definición | Primera respuesta | Actualización |
-| --- | --- | --- | --- |
-| Crítica (P1) | Servicio principal completamente indisponible o riesgo grave de datos | 2 horas hábiles | Cada 60 minutos |
-| Alta (P2) | Función esencial degradada para varios clientes | 4 horas hábiles | Cada 4 horas |
-| Media/Baja (P3/P4) | Afectación parcial o consulta | 1 día hábil | Según avance |
+| Severidad          | Definición                                                            | Primera respuesta | Actualización   |
+| ------------------ | --------------------------------------------------------------------- | ----------------- | --------------- |
+| Crítica (P1)       | Servicio principal completamente indisponible o riesgo grave de datos | 2 horas hábiles   | Cada 60 minutos |
+| Alta (P2)          | Función esencial degradada para varios clientes                       | 4 horas hábiles   | Cada 4 horas    |
+| Media/Baja (P3/P4) | Afectación parcial o consulta                                         | 1 día hábil       | Según avance    |
 
 ## Protocolo operativo
 
